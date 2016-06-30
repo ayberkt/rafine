@@ -1,0 +1,47 @@
+open AstSyntax
+
+%%
+%header (functor ExprLrValsFun (structure Token : TOKEN))
+
+%term EOF
+   | IDENT of string
+   | ARRTYPE
+   | FORALL
+   | SMALLLAMBDA
+   | BIGLAMBDA
+   | COLON
+   | LPAREN
+   | RPAREN
+   | RBRACKET
+   | LBRACKET
+   | LSQUARE
+   | RSQUARE
+   | LTEQUALS
+   | LTLTLT
+   | DOT
+   | APOSTROPHE
+
+%nonterm start of exp
+       | exp   of exp
+       | typ   of typ
+
+%verbose
+%pos int
+%start start
+%eop EOF
+%noshift EOF
+%name Expr
+%%
+
+start : exp                             (exp)
+
+typ : typ ARRTYPE typ                   (intoTyp (ARR (typ1, typ2)))
+    | typ LTEQUALS typ                  (intoTyp (SUB (typ1, typ2)))
+    | typ LTLTLT typ                    (intoTyp (REF (typ1, typ2)))
+    | LPAREN typ RPAREN                 (typ)
+
+exp : IDENT                             (intoExp (NEU (VAR IDENT)))
+    | SMALLLAMBDA IDENT DOT exp         (intoExp (VAL (LAM (IDENT, exp))))
+    | exp LPAREN exp RPAREN             (intoExp (NEU (AP (exp1, exp2))))
+    | exp COLON typ                     (intoExp (ANN (exp, typ)))
+    | LPAREN exp RPAREN                 (exp)

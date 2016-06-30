@@ -1,0 +1,7 @@
+Group is
+  $/basis.cm
+  ../lib/sml-typed-abts/abt.cm
+  statics/syntax.cm
+  statics/parser.cm
+  statics/typing.cm
+  repl/repl.sml
