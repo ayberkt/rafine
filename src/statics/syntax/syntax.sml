@@ -23,7 +23,8 @@ struct
     | VAL of ('t, 'e) val_view
 
   datatype 't typ_view =
-      ARR of 't * 't
+      BASE
+    | ARR of 't * 't
     | REF of 't * 't
     | SUB of 't * 't
 
@@ -44,9 +45,10 @@ struct
     let
       fun mkType tau (t1, t2) = tau $$ [([],[]) \ t1, ([],[]) \ t2]
     in
-      fn  ARR (t1, t2) => mkType O.ARR (t1, t2)
-        | REF (t1, t2) => mkType O.REF (t1, t2)
-        | SUB (t1, t2) => mkType O.SUB (t1, t2)
+      fn  ARR  (t1, t2) => mkType O.ARR (t1, t2)
+        | REF  (t1, t2) => mkType O.REF (t1, t2)
+        | SUB  (t1, t2) => mkType O.SUB (t1, t2)
+        | BASE          => O.BASE $$ []
     end
 
 end

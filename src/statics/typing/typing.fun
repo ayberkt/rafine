@@ -12,6 +12,6 @@ struct
 
   fun inferTyp delta t = raise Todo
 
-  fun check (delta, gamma, pi) e t = raise Todo
+  fun check (gamma, pi) e t = raise Todo
 
 end

@@ -8,5 +8,5 @@ sig
   type ectx
 
   val checkTyp : tctx -> typ -> bool
-  val check : tctx * ectx * ctxref -> exp -> typ -> bool
+  val check : ectx * ctxref -> exp -> typ -> bool
 end

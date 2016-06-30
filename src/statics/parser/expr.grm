@@ -7,6 +7,7 @@ open AstSyntax
    | IDENT of string
    | ARRTYPE
    | FORALL
+   | BASE
    | SMALLLAMBDA
    | BIGLAMBDA
    | COLON
@@ -35,7 +36,8 @@ open AstSyntax
 
 start : exp                             (exp)
 
-typ : typ ARRTYPE typ                   (intoTyp (ARR (typ1, typ2)))
+typ : BASE                              (intoTyp BASE)
+    | typ ARRTYPE typ                   (intoTyp (ARR (typ1, typ2)))
     | typ LTEQUALS typ                  (intoTyp (SUB (typ1, typ2)))
     | typ LTLTLT typ                    (intoTyp (REF (typ1, typ2)))
     | LPAREN typ RPAREN                 (typ)

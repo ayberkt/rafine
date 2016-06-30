@@ -19,6 +19,8 @@ whitespace = [\ \t];
 \n                 => (pos := !pos + 1; lex ());
 {whitespace}+      => (lex ());
 
+"i"                => (Tokens.BASE (!pos, !pos));
+"ι"                => (Tokens.BASE (!pos, !pos));
 "->"               => (Tokens.ARRTYPE (!pos, !pos));
 "→"                => (Tokens.ARRTYPE (!pos, !pos));
 "\\"               => (Tokens.SMALLLAMBDA (!pos, !pos));

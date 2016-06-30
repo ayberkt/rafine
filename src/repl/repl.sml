@@ -12,7 +12,7 @@ struct
                             ; TextIO.inputLine TextIO.stdIn)
           val result = (f input, SortData.EXP)
           val resultAbt = AstToAbt.convert Abt.Metavar.Ctx.empty result
-          val wellTyped =
+          (*val wellTyped =
             case Syntax.outExp resultAbt of
               Syntax.ANN (m, a) =>
                 let
@@ -22,10 +22,10 @@ struct
                 in
                   Typing.check (delta, gamma, pi) m a
                 end
-             | _ => false
+             | _ => false*)
       in
         printLn (ShowAbt.toString resultAbt);
-        printLn (if wellTyped then "Good!" else "Bad!");
+        (*printLn (if wellTyped then "Good!" else "Bad!");*)
         loop f
       end
     end

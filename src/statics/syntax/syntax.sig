@@ -18,7 +18,8 @@ sig
     | VAL of ('t, 'e) val_view
 
   datatype 't typ_view =
-      ARR of 't * 't
+      BASE
+    | ARR of 't * 't
     | REF of 't * 't
     | SUB of 't * 't
 
