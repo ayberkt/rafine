@@ -14,7 +14,14 @@ struct
           val resultAbt = AstToAbt.convert Abt.Metavar.Ctx.empty result
           val wellTyped =
             case Syntax.outExp resultAbt of
-               Syntax.ANN (m, a) => Typing.check (Abt.Var.Ctx.empty, Abt.Var.Ctx.empty) m a
+              Syntax.ANN (m, a) =>
+                let
+                  val delta =  Abt.Var.Ctx.empty
+                  val gamma = Abt.Var.Ctx.empty
+                  val pi = Abt.Var.Ctx.empty
+                in
+                  Typing.check (delta, gamma, pi) m a
+                end
              | _ => false
       in
         printLn (ShowAbt.toString resultAbt);
