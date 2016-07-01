@@ -1,4 +1,4 @@
-structure Organisms : POSET =
+structure Organisms : REFINEMENT_SET =
 struct
   datatype t =
     ANIMAL | MAMMAL | MARINE | LLAMA | DOLPHIN | JELLYFISH
@@ -23,5 +23,17 @@ struct
     | toString JELLYFISH = "jellyfish"
     | toString VEGETABLE = "vegetable"
     | toString CARROT = "carrot"
+
+  exception ReadError
+
+  fun read "animal"    = ANIMAL
+    | read "mammal"    = MAMMAL
+    | read "marine"    = MARINE
+    | read "llama"     = LLAMA
+    | read "dolphin"   = DOLPHIN
+    | read "jellyfish" = JELLYFISH
+    | read "vegetable" = VEGETABLE
+    | read "carrot"    = CARROT
+    | read _           = raise ReadError
 
 end
