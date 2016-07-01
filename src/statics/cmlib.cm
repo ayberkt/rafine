@@ -1,0 +1,4 @@
+Library
+  structure Sum
+is
+  ../../lib/cmlib/cmlib.cm

@@ -1,4 +1,7 @@
 Group is
   ../../lib/sml-typed-abts/abt.cm
+  cmlib.cm
+  basis/poset.sig
+  basis/poset.sml
   operator/operator.sml
   operator/sort.sml
