@@ -10,23 +10,17 @@ struct
   type exp = View.term
   type typ = View.term
 
-  datatype ('t, 'e) val_view =
-    LAM of var * 'e
-
-  datatype ('t, 'e) neu_view =
-      VAR of var
-    | AP of 'e * 'e
-
   datatype ('t, 'e) exp_view =
-      ANN of 'e * 't
-    | NEU of ('t, 'e) neu_view
-    | VAL of ('t, 'e) val_view
+    VAR of var
+  | LAM of var * 'e
+  | AP of  'e * 'e
+  | ANN of 'e * 't
 
   datatype 't typ_view =
-      BASE
-    | ARR of 't * 't
-    | REF of 't * 't
-    | SUB of 't * 't
+    BASE
+  | ARR of 't * 't
+  | REF of 't * 't
+  | SUB of 't * 't
 
   exception Todo
 
@@ -36,10 +30,10 @@ struct
   structure O = OperatorData
 
   val intoExp =
-    fn NEU (VAR x) => check (`x, SortData.EXP)
-     | NEU (AP (e1, e2)) => O.AP $$ [([],[]) \ e1, ([],[]) \ e2]
-     | VAL (LAM (x, e)) => O.LAM $$ [([],[x]) \ e]
-     | ANN (e, t) => O.ANN $$ [([],[]) \ e, ([],[]) \ t]
+    fn (VAR x) => check (`x, SortData.EXP)
+     | (AP (e1, e2)) => O.AP $$ [([],[]) \ e1, ([],[]) \ e2]
+     | (LAM (x, e)) => O.LAM $$ [([],[x]) \ e]
+     | (ANN (e, t)) => O.ANN $$ [([],[]) \ e, ([],[]) \ t]
 
   val intoTyp =
     let
@@ -74,16 +68,17 @@ struct
 
     fun outExp e =
       case View.infer e of
-         (`x, SortData.EXP) => NEU (VAR x)
-       | (O.LAM $ [(_,[x]) \ e], _) => VAL (LAM (x, e))
-       | (O.AP $ [_ \ e1, _ \ e2], _) => NEU (AP (e1, e2))
-       | (O.ANN $ [_ \ e, _ \ t], _) => ANN (e, t)
-       | _ => raise Fail "Invalid expression"
+         (`x, SortData.EXP) => VAR x
+      | (O.LAM $ [(_,[x]) \ e], _) => LAM (x, e)
+      | (O.AP $ [_ \ e1, _ \ e2], _) => AP (e1, e2)
+      | (O.ANN $ [_ \ e, _ \ t], _) => ANN (e, t)
+      | _ => raise Fail "Invalid expression"
 
-    fun outTyp t =
+    fun   outTyp t =
       case View.infer t of
          (O.ARR $ [_ \ t1, _ \ t2], _) => ARR (t1, t2)
-       | _ => raise Fail "Invalid type"
+      |  (O.BASE $ [], _) => BASE
+      | _ => raise Fail "Invalid type"
   end
 end
 

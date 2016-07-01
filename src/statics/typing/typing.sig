@@ -3,10 +3,10 @@ sig
   type exp
   type typ
 
-  type tctx
   type ctxref
   type ectx
 
-  val checkTyp : tctx -> typ -> bool
+  exception TypeError of string
+
   val check : ectx * ctxref -> exp -> typ -> bool
 end

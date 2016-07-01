@@ -5,23 +5,17 @@ sig
   type exp
   type typ
 
-  datatype ('t, 'e) val_view =
-    LAM of var * 'e
-
-  datatype ('t, 'e) neu_view =
-      VAR of var
-    | AP of 'e * 'e
-
   datatype ('t, 'e) exp_view =
-      ANN of 'e * 't
-    | NEU of ('t, 'e) neu_view
-    | VAL of ('t, 'e) val_view
+    VAR of var
+  | LAM of var * 'e
+  | AP of  'e * 'e
+  | ANN of 'e * 't
 
   datatype 't typ_view =
-      BASE
-    | ARR of 't * 't
-    | REF of 't * 't
-    | SUB of 't * 't
+    BASE
+  | ARR of 't * 't
+  | REF of 't * 't
+  | SUB of 't * 't
 
   val intoExp : (typ, exp) exp_view -> exp
   val intoTyp : typ typ_view -> typ

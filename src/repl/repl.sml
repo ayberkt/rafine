@@ -4,6 +4,9 @@ struct
   local
     structure Typing = Typing (Syntax)
     fun printLn s = print (s ^ "\n")
+    fun printTypeError msg = printLn ("Type error: " ^ msg)
+    fun @@ (f, x) = f x
+    infixr 0 @@
   in
     fun loop f =
       let val dummyEOF = ExprLrVals.Tokens.EOF(0, 0)
@@ -12,20 +15,22 @@ struct
                             ; TextIO.inputLine TextIO.stdIn)
           val result = (f input, SortData.EXP)
           val resultAbt = AstToAbt.convert Abt.Metavar.Ctx.empty result
-          (*val wellTyped =
+          val wellTyped =
             case Syntax.outExp resultAbt of
-              Syntax.ANN (m, a) =>
+              Syntax.ANN (e, t) =>
                 let
-                  val delta =  Abt.Var.Ctx.empty
                   val gamma = Abt.Var.Ctx.empty
                   val pi = Abt.Var.Ctx.empty
                 in
-                  Typing.check (delta, gamma, pi) m a
+                  Typing.check (gamma, pi) e t
+                  handle
+                    Typing.TypeError msg => (printTypeError msg; false)
+                  | _ => (printTypeError "Something went wrong!"; false)
                 end
-             | _ => false*)
+            | _ => (raise Fail "no annotation!"; false)
       in
         printLn (ShowAbt.toString resultAbt);
-        (*printLn (if wellTyped then "Good!" else "Bad!");*)
+        printLn (if wellTyped then "Good!" else "Bad!");
         loop f
       end
     end
