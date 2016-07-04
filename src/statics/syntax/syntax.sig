@@ -4,6 +4,7 @@ sig
 
   type exp
   type typ
+  type rfn
 
   datatype ('t, 'e) exp_view =
     VAR of var
@@ -14,11 +15,16 @@ sig
   datatype 't typ_view =
     BASE
   | ARR of 't * 't
-  | REF of 't * 't
-  | SUB of 't * 't
+
+
+  datatype 'r rfn_view =
+    ATOM  of OperatorData.RefSet.t
+  | RFARR of 'r * 'r
+
 
   val intoExp : (typ, exp) exp_view -> exp
   val intoTyp : typ typ_view -> typ
+  val intoRfn : rfn rfn_view -> rfn
 end
 
 signature SYNTAX =
@@ -34,4 +40,5 @@ sig
 
   val outExp : exp -> (typ, exp) exp_view
   val outTyp : typ -> typ typ_view
+  val outRfn : rfn -> rfn rfn_view
 end

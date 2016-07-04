@@ -21,8 +21,9 @@ whitespace = [\ \t];
 
 "i"                => (Tokens.BASE (!pos, !pos));
 "ι"                => (Tokens.BASE (!pos, !pos));
-"->"               => (Tokens.ARRTYPE (!pos, !pos));
-"→"                => (Tokens.ARRTYPE (!pos, !pos));
+"->"               => (Tokens.ARR (!pos, !pos));
+"->>"              => (Tokens.RFNARR (!pos, !pos));
+"→"                => (Tokens.ARR (!pos, !pos));
 "\\"               => (Tokens.SMALLLAMBDA (!pos, !pos));
 "λ"                => (Tokens.SMALLLAMBDA (!pos, !pos));
 

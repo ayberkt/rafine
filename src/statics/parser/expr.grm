@@ -1,11 +1,14 @@
 open AstSyntax
 
+structure OD = OperatorData
+
 %%
 %header (functor ExprLrValsFun (structure Token : TOKEN))
 
 %term EOF
    | IDENT of string
-   | ARRTYPE
+   | ARR
+   | RFNARR
    | FORALL
    | BASE
    | SMALLLAMBDA
@@ -25,6 +28,7 @@ open AstSyntax
 %nonterm start of exp
        | exp   of exp
        | typ   of typ
+       | rfn   of rfn
 
 %verbose
 %pos int
@@ -37,13 +41,14 @@ open AstSyntax
 start : exp                             (exp)
 
 typ : BASE                              (intoTyp BASE)
-    | typ ARRTYPE typ                   (intoTyp (ARR (typ1, typ2)))
-    | typ LTEQUALS typ                  (intoTyp (SUB (typ1, typ2)))
-    | typ LTLTLT typ                    (intoTyp (REF (typ1, typ2)))
+    | typ ARR typ                       (intoTyp (ARR (typ1, typ2)))
     | LPAREN typ RPAREN                 (typ)
+
+rfn : IDENT                             (intoRfn (ATOM (OD.RefSet.read IDENT)))
 
 exp : IDENT                             (intoExp (VAR IDENT))
     | SMALLLAMBDA IDENT DOT exp         (intoExp (LAM (IDENT, exp)))
     | exp LPAREN exp RPAREN             (intoExp (AP (exp1, exp2)))
-    | exp COLON typ                     (intoExp (ANN (exp, typ)))
+    | exp COLON typ                     (intoExp (ANN (exp, inr typ)))
+    | exp COLON rfn                     (intoExp (RFNANN (exp, rfn)))
     | LPAREN exp RPAREN                 (exp)

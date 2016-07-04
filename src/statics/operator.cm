@@ -1,7 +1,7 @@
 Group is
   ../../lib/sml-typed-abts/abt.cm
   cmlib.cm
-  basis/poset.sig
-  basis/poset.sml
+  basis/refinement_set.cm
+  basis/organisms.sml
   operator/operator.sml
   operator/sort.sml

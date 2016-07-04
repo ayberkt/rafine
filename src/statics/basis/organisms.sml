@@ -1,4 +1,4 @@
-structure Organisms : REFINEMENT_SET =
+structure Organisms :> REFINEMENT_SET =
 struct
   datatype t =
     ANIMAL | MAMMAL | MARINE | LLAMA | DOLPHIN | JELLYFISH

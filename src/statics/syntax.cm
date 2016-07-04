@@ -9,6 +9,7 @@ Library
   structure ShowAbt
   structure SortData
   structure SimpleOperator
+  structure OperatorData
 is
   ../../lib/cmlib/cmlib.cm
   ../../lib/sml-typed-abts/abt.cm
