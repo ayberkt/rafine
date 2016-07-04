@@ -6,11 +6,12 @@ sig
   type typ
   type rfn
 
-  datatype ('t, 'e) exp_view =
+  datatype ('t, 'r, 'e) exp_view =
     VAR of var
   | LAM of var * 'e
   | AP of  'e * 'e
   | ANN of 'e * 't
+  | RFANN of 'e * 'r
 
   datatype 't typ_view =
     BASE
@@ -22,7 +23,7 @@ sig
   | RFARR of 'r * 'r
 
 
-  val intoExp : (typ, exp) exp_view -> exp
+  val intoExp : (typ, rfn, exp) exp_view -> exp
   val intoTyp : typ typ_view -> typ
   val intoRfn : rfn rfn_view -> rfn
 end
@@ -38,7 +39,7 @@ sig
 
   structure Ctx : DICT where type key = var
 
-  val outExp : exp -> (typ, exp) exp_view
+  val outExp : exp -> (typ, rfn, exp) exp_view
   val outTyp : typ -> typ typ_view
   val outRfn : rfn -> rfn rfn_view
 end
