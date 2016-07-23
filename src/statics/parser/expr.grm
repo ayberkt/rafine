@@ -37,6 +37,8 @@ structure OD = OperatorData
 %noshift EOF
 %name Expr
 
+%nonassoc LPAREN
+%nonassoc RPAREN
 %nonassoc COLON
 %right ARR
 %nonassoc DOT
