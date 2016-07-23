@@ -36,6 +36,11 @@ structure OD = OperatorData
 %eop EOF
 %noshift EOF
 %name Expr
+
+%nonassoc COLON
+%right ARR
+%nonassoc DOT
+
 %%
 
 start : exp                             (exp)
